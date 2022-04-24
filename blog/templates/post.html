@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+{% block content %}
+<div id="post">
+<div id="head">
+  <img id="banner" src="{{ url_for('static', filename='img/' + post.image_file) }}">
+<h1 class="post_title">{{ post.title }}</h1> 
+<div id="ratingstars">
+
+</div>
+<p id = "author">Author: {{ post.user.username }}</p>
+<div id="ratingstars">
+<p id ="starfont">
+  {{ ratingRes }} {% if  ratingRes  >= 1 %}★{% endif %}{% if  ratingRes  >= 1.75 %}★{% endif %}{% if  ratingRes  >= 2.75 %}★{% endif %}{% if  ratingRes  >= 3.75 %}★{% endif %}{% if  ratingRes  >= 4.75 %}★{% endif %}</p></div>
+</div>
+</p>
+<div id="articlebody">
+<div class="detailed_description">{{ post.content }}</div>
+</div>
+
+</div>
+{% if current_user.is_authenticated %}
+<div class="post_rating">
+  <form id='RatingForm' method="POST" action="">
+  {{ form.csrf_token }}
+  <p><div class="rate">
+    <input type="radio" id='star5' name="rate" value="5" />
+    <label for="star5" title="text">5 stars</label>
+    <input type="radio" id='star4' name="rate" value="4" />
+    <label for="star4" title="text">4 stars</label>
+    <input type="radio" id='star3' name="rate" value="3" />
+    <label for="star3" title="text">3 stars</label>
+    <input type="radio" id='star2' name="rate" value="2" />
+    <label for="star2" title="text">2 stars</label>
+    <input type="radio" id='star1' name="rate" value="1" />
+    <label for="star1" title="text">1 star</label>
+  </div><input id='ratingbut' name="submit" type="submit" value="Rate"></p>
+</form>
+</div>
+
+
+
+
+<div id='commentbox'>
+  <form id='CommentForm' method="POST" action="">
+  {{ form.csrf_token }}
+  <textarea id='text' name="text" form="CommentForm" maxlength="2000" required></textarea>
+  <input id='commentbut' name="submit" type="submit" value="Comment">
+</form>
+</div>
+
+{% else %}
+<div id="LoginPrompt"> <p>Log in to comment.</p></div>
+{% endif %}
+{% for comment in post.comment | reverse %}
+<div class="comment_text">
+<p id = 'commenter'>{{ comment.user.username }} </p>
+<p id ='date'>{{ comment.date.strftime('%d/%m/%Y %H:%M') }}</p>
+<p>{{ comment.text|truncate(2000) }}</p>
+</div>
+</a>
+{% endfor %}
+{% endblock content %}
+</div>
+
+<!--{{ form.text.label }} {{ form.text }}-->
+
+<!--{{ form2.csrf_token }}-->
+
+
+<!-- <div id='ratingbox'>
+  <form id='RatingForm' method="POST" action="{{ url_for('/post/<int:post_id>',formid=2) }}">
+  {{ form.csrf_token }}
+  <textarea id='rating' name="rating" form="RatingForm" maxlength="2000"></textarea>
+  <input id='ratingbut' type="submit" value="Post Rating">
+</form>
+</div> -->
+<!-- 
+https://stackoverflow.com/questions/67819189/get-the-average-rating-in-flask-blog-sql-python -->

@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block content %}
+<form id="registerform" method="POST" action="">
+  {{ form.csrf_token }}
+    <p>{{ form.username.label }} <input type="text" id="first_name_new" form="registerform" name="username"required></p>
+    <p>{{ form.email.label }} <input type="text" id="email_new" form="registerform" name="email"required></p>
+    <p>{{ form.password.label }} <input type="password" id="password_new" form="registerform" name="password"required></p>
+    <p>{{ form.confirm_password.label }} <input type="password" id="password_confirm" form="registerform" name="confirm_password"required></p>
+  <input id="submitbut" type="submit" value="Register">
+</form>
+
+
+{% for error in form.username.errors %}
+  <span style="color: red;">[{{ error }}]</span>
+{% endfor %}
+
+{% endblock content %}

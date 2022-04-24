@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel=stylesheet type=text/css href="{{ url_for('static',filename='style.css')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300&display=swap" rel="stylesheet">
+    <meta charset="utf-8">
+    <title>My Wonderful Site</title>
+</head>
+
+<body>
+  <div id="header">
+    <div id ="top_navig_bar">
+            <a href="{{ url_for('home') }}" id="home">⌂</a>&nbsp
+            {% if current_user.is_authenticated %}
+            <i class="pers_greet">Hello, {{ current_user.username }}!</i>
+            <a href="{{ url_for('logout') }}" id="logout">Logout</a>
+            {% else %}
+            <i class="pers_greet"></i>Hello, Guest!</i>
+            <a href="{{ url_for('register') }}" id="register">Register</a>
+            <a href="{{ url_for('login') }}" id="login">Login</a>
+            {% endif %}
+    </div>
+  </div>
+    <div>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class=flashes>
+            {% for message in messages %}
+              <p id='flash'>{{ message }}</p>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+        </div>
+        
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer id="footer">
+      <p>Made by c1847553 │ <a href = "mailto: test@test.com">Contact</a> │ <a href="https://www.linkedin.com">Linkedin</a> </p>
+    </footer>
+</body>
+</html>
